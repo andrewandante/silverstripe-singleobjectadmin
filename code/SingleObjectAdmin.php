@@ -228,7 +228,7 @@ class SingleObjectAdmin extends LeftAndMain implements PermissionProvider
 
         if ($object) {
             $object->doPublish();
-            $form->sessionMessage($object->singular_name() . ' has been saved.', 'good');
+            $form->sessionMessage($object->i18n_singular_name() . ' has been saved.', 'good');
         } else {
             $form->sessionMessage('Something failed, please refresh your browser.', 'bad');
         }
