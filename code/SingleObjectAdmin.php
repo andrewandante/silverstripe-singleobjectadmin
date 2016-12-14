@@ -174,7 +174,7 @@ class SingleObjectAdmin extends LeftAndMain implements PermissionProvider
             }
         }
 
-        $link = '"' . $object->singular_name() . '"';
+        $link = '"' . $object->i18n_singular_name() . '"';
         $message = _t(
             'GridFieldDetailForm.Saved',
             'Saved {name} {link}',
