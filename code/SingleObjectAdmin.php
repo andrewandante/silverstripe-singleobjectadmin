@@ -179,8 +179,8 @@ class SingleObjectAdmin extends LeftAndMain implements PermissionProvider
             'GridFieldDetailForm.Saved',
             'Saved {name} {link}',
             array(
-                'name' => $object->singular_name(),
-                'link' => $link
+                'name' => $object->i18n_singular_name(),
+                'link' => ''
             )
         );
 
