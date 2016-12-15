@@ -62,7 +62,7 @@ class SingleObjectAdmin extends LeftAndMain implements PermissionProvider
 
         $actions = new FieldList();
         $actions->push(
-            FormAction::create('doSave', 'Save')
+            FormAction::create('doSave', _t('GridFieldDetailForm.Save', 'Save'))
                 ->setUseButtonTag(true)
                 ->addExtraClass('ss-ui-action-constructive')
                 ->setAttribute('data-icon', 'accept')
