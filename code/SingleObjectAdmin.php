@@ -1,5 +1,18 @@
 <?php
 
+namespace SingleObjectAdmin;
+
+use SilverStripe\Admin\LeftAndMain;
+use SilverStripe\Security\Permission;
+use SilverStripe\Security\PermissionProvider;
+use SilverStripe\Versioned\Versioned;
+use SilverStripe\Control\Controller;
+use SilverStripe\Forms\Form;
+use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\FormAction;
+use SilverStripe\Forms\HiddenField;
+use SilverStripe\Forms\Literalfield;
+
 /**
  * Defines the Single Object Administration interface for the CMS
  *
