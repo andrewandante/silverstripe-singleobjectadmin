@@ -3,6 +3,8 @@
 namespace SingleObjectAdmin;
 
 use SilverStripe\Admin\LeftAndMain;
+use SilverStripe\Control\PjaxResponseNegotiator;
+use SilverStripe\ORM\ValidationException;
 use SilverStripe\Security\Permission;
 use SilverStripe\Security\PermissionProvider;
 use SilverStripe\Versioned\Versioned;
@@ -57,14 +59,14 @@ class SingleObjectAdmin extends LeftAndMain implements PermissionProvider
 
         $object = $objectClass::get()->first();
         if (!$object || !$object->exists()) {
-            $currentStage = Versioned::current_stage();
-            Versioned::reading_stage('Stage');
+            $currentReadingMode = Versioned::get_reading_mode();
+            Versioned::set_reading_mode('Stage.Stage');
             $object = $objectClass::create();
             $object->write();
             if ($objectClass::has_extension('Versioned')) {
                 $object->doPublish();
             }
-            Versioned::reading_stage($currentStage);
+            Versioned::set_reading_mode($currentReadingMode);
         }
         $fields = $object->getCMSFields();
 
@@ -80,10 +82,9 @@ class SingleObjectAdmin extends LeftAndMain implements PermissionProvider
                 ->addExtraClass('ss-ui-action-constructive')
                 ->setAttribute('data-icon', 'accept')
         );
-        $form = CMSForm::create(
+        $form = Form::create(
             $this, 'EditForm', $fields, $actions
         )->setHTMLID('Form_EditForm');
-        $form->setResponseNegotiator($this->getResponseNegotiator());
         $form->addExtraClass('cms-content center cms-edit-form');
         if ($form->Fields()->hasTabset()) $form->Fields()->findOrMakeTab('Root')->setTemplate('CMSTabSet');
         $form->setHTMLID('Form_EditForm');
@@ -153,8 +154,8 @@ class SingleObjectAdmin extends LeftAndMain implements PermissionProvider
         $objectClass = $this->config()->get('tree_class');
         $object = $objectClass::get()->byID($data['ID']);
 
-        $currentStage = Versioned::current_stage();
-        Versioned::reading_stage('Stage');
+        $currentReadingMode = Versioned::get_reading_mode();
+        Versioned::set_reading_mode('Stage.Stage');
 
         $controller = Controller::curr();
         if (!$object->canEdit()) {
@@ -180,7 +181,7 @@ class SingleObjectAdmin extends LeftAndMain implements PermissionProvider
             return $responseNegotiator->respond($controller->getRequest());
         }
 
-        Versioned::reading_stage($currentStage);
+        Versioned::set_reading_mode($currentReadingMode);
         if ($objectClass::has_extension('Versioned')) {
             if ($object->isPublished()) {
                 $this->publish($data, $form);
@@ -232,8 +233,8 @@ class SingleObjectAdmin extends LeftAndMain implements PermissionProvider
      */
     private function publish($data, $form)
     {
-        $currentStage = Versioned::current_stage();
-        Versioned::reading_stage('Stage');
+        $currentReadingMode = Versioned::get_reading_mode();
+        Versioned::set_reading_mode('Stage.Stage');
 
         $objectClass = $this->config()->get('tree_class');
 
@@ -246,7 +247,7 @@ class SingleObjectAdmin extends LeftAndMain implements PermissionProvider
             $form->sessionMessage('Something failed, please refresh your browser.', 'bad');
         }
 
-        Versioned::reading_stage($currentStage);
+        Versioned::set_reading_mode($currentReadingMode);
     }
 
 }

@@ -17,11 +17,12 @@
     ],
     "require": {
         "silverstripe/admin": "^1.0@dev",
-        "silverstripe/framework": "^4.0@dev"
+        "silverstripe/framework": "^4.0@dev",
+        "silverstripe/versioned": "^1.0"
     },
     "autoload": {
         "psr-4": {
             "SingleObjectAdmin\\": "code/"
         }
-    },
+    }
 }
